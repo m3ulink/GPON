@@ -1,26 +1,26 @@
 # Web management Huawei OLT MA5683 and MA5603
 ### version 1.0
-Установка описана здесь [install/install.md ](install/install.md)  
+Installation is described here [install/install.md ](install/install.md)  
 
-### Описание
-Для абонентов используется схема vlan per user (влан на абонента).  
-Выбраны определенные диапазоны вланов для QnQ и для клинетов.  
-Для QnQ мы задействуем вланы (верхний таг Svlan) с 2501 по 2512 (например).  
-Для клиентов мы задействуем 1024 влана (нижний таг Cvlan) c 2100 по 3123 (такое количество line-profiles будет создано).  
-Сервис порт будет формироваться таким образом:
+### Description
+For subscribers, the vlan per user scheme is used.
+Certain ranges of vlans have been selected for QnQ and for clients.
+For QnQ, we use vlans (top tag Svlan) from 2501 to 2512 (for example).
+For clients, we will use 1024 vlans (lower tag Cvlan) from 2100 to 3123 (this number of line-profiles will be created).
+The service port will be formed as follows:
 ```
 service = ont_id + 128 * port_id + 4096 * slot_id
 ```
-Данные Cvlan будут формироваться таким образом:
+Cvlan data will be generated in this way:
 ```
 vlan = ont_id + 2100 + 128 * port_id - (port_id % 7)*1024
 ```
-Svlan будет браться из базы данных.  
-*Возможно использовать и меньшее количество Cvlan - например выдавать на каждый gpon-порт свой Svlan.  
-В таком случае будет задействовано 128 Cvlan-а.  
-Формулы необходимо будет поменять под себя.  
-Использовать же один Svlan на все шасси не получится, так как мы ограничены количеством line-profiles, которые можно создать на шасси.*  
-Для понимания - вот таблица с данными, которые будут формироваться:
+Svlan will be taken from the database.
+*It is possible to use a smaller number of Cvlans - for example, issue a different Svlan to each gpon port.
+In this case, 128 Cvlans will be used.
+The formulas will need to be changed to suit you.
+It will not be possible to use one Svlan for all chassis, since we are limited by the number of line-profiles that can be created on a chassis.*
+For understanding, here is a table with the data that will be generated:
 
 | gpon port | QnQ Svlan | Cvlan users start | Cvlan users end | Service ports start | Service ports end |
 | - | - | - | - | - | - |
@@ -136,7 +136,7 @@ Svlan будет браться из базы данных.
 | slot 5-14 | 2512 | 2868 | 2995 | 22272 | 22399 |
 | slot 5-15 | 2512 | 2996 | 3123 | 22400 | 22527 |
 
-## Благодарность за вдохновение  
+## Thanks for the inspiration
 https://local.com.ua/forum/topic/89222-huawei-ma5683t-oid-%D0%B8-mib/  
 https://github.com/explicitnull/h-ont-activator  
 https://gpon.kou.li/huawei/olt/snmp  
